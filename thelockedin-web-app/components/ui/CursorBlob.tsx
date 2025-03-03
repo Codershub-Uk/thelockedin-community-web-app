@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 
 export function CursorBlob() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
@@ -13,6 +16,9 @@ export function CursorBlob() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Only render on client side to prevent hydration mismatch
+  if (!mounted) return null;
 
   return (
     <div

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -34,10 +34,13 @@ const item = {
 };
 
 export function Hero() {
+  const [mounted, setMounted] = useState(false);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
+
     const background = backgroundRef.current;
     if (!background) return;
 
@@ -69,6 +72,51 @@ export function Hero() {
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
+
+  // Only render animations on client side to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <section className="relative min-h-[90vh] flex items-center justify-center py-24 md:py-32 lg:py-40 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/0 via-zinc-950/50 to-zinc-950" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(120,119,198,0.15),transparent_50%)]" />
+        </div>
+
+        <div className="container relative z-10">
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="mb-10 inline-flex items-center rounded-full border border-purple-500/20 bg-purple-500/5 px-4 py-2 text-sm text-purple-400 backdrop-blur-3xl">
+              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-purple-500" />
+              500+ Company-Specific Questions
+            </div>
+
+            <h1 className="bg-gradient-to-br from-white via-white to-zinc-400 bg-clip-text pb-4 text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
+              Master the Tech Interview
+            </h1>
+
+            <p className="mt-8 text-xl text-zinc-400 md:text-2xl">
+              Practice with questions tailored to your dream company.
+              <br className="hidden sm:inline" />
+              Get hired faster with targeted preparation.
+            </p>
+
+            <div className="mt-12">
+              <Link href="/signup">
+                <Button
+                  size="lg"
+                  className="group relative h-14 px-10 text-lg bg-purple-500 text-white hover:bg-purple-600"
+                >
+                  <span className="relative z-10">Start Practicing</span>
+                  <span className="relative z-10 ml-2 inline-block">
+                    <ArrowRight className="h-5 w-5" />
+                  </span>
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center py-24 md:py-32 lg:py-40 overflow-hidden">
@@ -129,7 +177,7 @@ export function Hero() {
               >
                 <Button
                   size="lg"
-                  className="group relative h-14 px-10 text-lg bg-purple-500 text-white hover:bg-purple-600 rounded-lg"
+                  className="group relative h-14 px-10 text-lg bg-purple-500 text-white hover:bg-purple-600"
                 >
                   <motion.span className="relative z-10">
                     Start Practicing

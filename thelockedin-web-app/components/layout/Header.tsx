@@ -4,9 +4,9 @@ import { Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navigation = [
-  { name: "Features", href: "#features" },
   { name: "Companies", href: "#companies" },
   { name: "How It Works", href: "#how-it-works" },
+  { name: "Features", href: "#features" },
 ];
 
 export function Header() {
@@ -16,7 +16,9 @@ export function Header() {
         <div className="mr-8">
           <Link className="flex items-center space-x-2" href="/">
             <Code2 className="h-6 w-6 text-purple-400" />
-            <span className="font-semibold tracking-tight">LockedIn</span>
+            <span className="font-semibold tracking-tight bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-transparent">
+              LockedIn
+            </span>
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center space-x-8 text-sm font-medium">
